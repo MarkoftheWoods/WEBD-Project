@@ -1,6 +1,6 @@
 <!-- 
   *******************
-  * WEBD Final Project - authentication page
+  * WEBD Final Project - Authenticate page
   * Name:     Mark Woods
   * Date:     March 12, 2020
   ******************** 

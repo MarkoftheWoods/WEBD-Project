@@ -1,10 +1,21 @@
-<!-- 
-  *******************
-  * WEBD Final Project - fight page
-  * Name:     Mark Woods
-  * Date:     March 12, 2020
-  ******************** 
--->
+<?php
+
+/*******************
+* WEBD Final Project - fight page
+* Name:     Mark Woods
+* Date:     March 12, 2020
+********************/
+
+require 'header.php';
+
+$fightid = filter_input(INPUT_GET, 'postid', FILTER_VALIDATE_INT);
+
+if ($fightid != null)
+{
+  $query = "SELECT * FROM fight WHERE FightID = :fightID";
+}
+
+?>
 
 <!DOCTYPE html>
 <html lang="en">

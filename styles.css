@@ -4,3 +4,19 @@
   * Name:     Mark Woods
   * Date:     March 12, 2020
 */
+
+html{
+  background-color: darkslategray;
+  padding: none;
+  margin: none;
+}
+
+body{
+  background-color: white;
+  width: 90%;
+  margin: auto;
+}
+
+#alert{
+  background-color: yellow;
+}

@@ -1,12 +1,19 @@
 <?php
 
 /*******************
-* WEBD Final Project - event page
+* WEBD Final Project - fight page
 * Name:     Mark Woods
 * Date:     March 12, 2020
 ********************/
 
-$eventID = filter_input(INPUT_GET, 'postid', FILTER_VALIDATE_INT);
+require 'connect.php';
+
+$fightid = filter_input(INPUT_GET, 'postid', FILTER_VALIDATE_INT);
+
+if ($fightid != null)
+{
+  $query = "SELECT * FROM fight WHERE FightID = :fightID";
+}
 
 ?>
 
@@ -14,7 +21,7 @@ $eventID = filter_input(INPUT_GET, 'postid', FILTER_VALIDATE_INT);
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <title>WMMAL Events</title>
+  <title>WMMAL Fights</title>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
