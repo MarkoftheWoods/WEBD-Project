@@ -20,4 +20,14 @@ function getFighterData($id, $db)
   return $foundFighter;
 }
 
+function getAllFighters($db)
+{
+  $query = "SELECT * FROM fighter";
+  $statement = $db->prepare($query);
+  $statement->execute();
+  $fighters = $statement->fetchAll();
+
+  return $fighters;
+}
+
 ?>

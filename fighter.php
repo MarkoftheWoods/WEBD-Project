@@ -9,6 +9,7 @@
 require 'header.php';
 
 $fighterID = filter_input(INPUT_GET, 'fighterid', FILTER_VALIDATE_INT);
+$fighterList = getAllFighters($db);
 
 if ($fighterID != null)
 {
@@ -51,28 +52,41 @@ function formatFight($fight, $fighter)
 <body>
     <header>
       <h1>Fighter Profile</h1>
+      <p><a href='index.php'>Return to main page</a></p>
     </header>
 
-    <section id='sidenavbar'>
+    <section id='topnavbar'>
+    <form method="get">
+      <fieldset>
+        <select id="fighterid" name="fighterid">
+          <?php foreach ($fighterList as $listItem): ?>
+            <option value='<?= $listItem['FighterID'] ?>'><?= $listItem['Name'] ?></option>
+          <?php endforeach ?>
+        </select>
+        <button type="submit">Go</button>
+      </fieldset>
+    </form>
     </section>
 
-    <section id='main'>
-      <h2><?= $fighter['Name'] ?></h2><a id="editlink" href='addfighter.php?fighterid=<?= $fighterID ?>'>Edit</a>
-      <p><?= $fighter['Wins']?>-<?= $fighter['Losses']?>-<?= $fighter['Draws']?>  (<?= $fighter['NoContests']?>)</p>
-      <ul>
-        <li>From: <?= $fighter['Birthplace'] ?></li>
-        <li>Born: <?= $fighter['Birthdate'] ?></li>        
-      </ul>
+    <?php if ($fighterID != null): ?>
+      <section id='main'>
+        <h2><?= $fighter['Name'] ?></h2><a id="editlink" href='addfighter.php?fighterid=<?= $fighterID ?>'>Edit</a>
+        <p><?= $fighter['Wins']?>-<?= $fighter['Losses']?>-<?= $fighter['Draws']?>  (<?= $fighter['NoContests']?>)</p>
+        <ul>
+          <li>From: <?= $fighter['Birthplace'] ?></li>
+          <li>Born: <?= $fighter['Birthdate'] ?></li>        
+        </ul>
 
-      <h3>Fights</h3>
-      <?php if ($fights != null): ?>
-      <ul>
-        <?php foreach ($fights as $fight): ?>
-            <li><?= formatFight($fight, $fighter) ?></li>
-        <?php endforeach ?>
-      </ul>
-      <?php endif ?>
-    </section>
+        <h3>Fights</h3>
+        <?php if ($fights != null): ?>
+        <ul>
+          <?php foreach ($fights as $fight): ?>
+              <li><?= formatFight($fight, $fighter) ?></li>
+          <?php endforeach ?>
+        </ul>
+        <?php endif ?>
+      </section>
+    <?php endif ?>
 
     <footer>
     </footer>

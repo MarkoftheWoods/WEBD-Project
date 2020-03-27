@@ -7,6 +7,7 @@
 ********************/
 
 require 'header.php';
+require 'authenticate.php';
 
 if (isset($_GET['fighterid']))
 {
@@ -57,8 +58,14 @@ else
       $message = "Unable to add fighter. Error: " + $statement->errorCode();
     }
   }
+  else
+  {
+    if (isset($_SESSION['message']))
+    {
+      $message = $_SESSION['message'];
+    }
+  }
 }
-
 
 ?>
 
@@ -76,6 +83,7 @@ else
 <body>
     <header>
       <h1>Fighter</h1>
+      <p><a href='index.php'>Return to main page</a></p>
     </header>
 
     <section id='sidenavbar'>
