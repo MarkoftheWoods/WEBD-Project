@@ -6,7 +6,7 @@
 * Date:     March 25, 2020
 ********************/
 
-require 'header.php';
+require 'functions.php';
 
 if (isset($_GET['fighterid']))
 {

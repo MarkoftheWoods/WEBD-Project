@@ -6,9 +6,10 @@
 * Date:     March 12, 2020
 ********************/
 
-require 'header.php';
+require 'functions.php';
 
 $fightid = filter_input(INPUT_GET, 'postid', FILTER_VALIDATE_INT);
+$pageTitle = "Fight Details";
 
 if ($fightid != null)
 {
@@ -26,7 +27,7 @@ if ($fightid != null)
 </head>
 <body>
     <header>
-    <h1></h1>
+      <?php require 'header.php'; ?>
     </header>
 
     <section>

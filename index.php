@@ -6,9 +6,9 @@
   ********************/ 
 
   session_start();
-  require 'header.php';
+  require 'functions.php';
 
-  $fighterList = getAllFighters($db);
+  $pageTitle = "Index";
 
   if (isset($_GET['search']))
   {
@@ -36,21 +36,8 @@
 </head>
 <body>
     <header>
-    <h1></h1>
+      <?php require 'header.php'; ?>
     </header>
-
-    <section id='topnavbar'>
-      <form method="get" action="fighter.php">
-        <fieldset>
-          <select id="fighterid" name="fighterid">
-            <?php foreach ($fighterList as $listItem): ?>
-              <option value='<?= $listItem['FighterID'] ?>'><?= $listItem['Name'] ?></option>
-            <?php endforeach ?>
-          </select>
-          <button type="submit" >Go</button>
-        </fieldset>
-      </form>
-    </section>
 
     <section id='search'>
       <form method="get">

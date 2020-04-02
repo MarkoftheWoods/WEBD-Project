@@ -6,10 +6,11 @@
 * Date:     March 12, 2020
 ********************/
 
-require 'header.php';
+require 'functions.php';
 
 $fighterID = filter_input(INPUT_GET, 'fighterid', FILTER_VALIDATE_INT);
 $fighterList = getAllFighters($db);
+$pageTitle = "Fighter Profile";
 
 if ($fighterID != null)
 {
@@ -51,22 +52,8 @@ function formatFight($fight, $fighter)
 </head>
 <body>
     <header>
-      <h1>Fighter Profile</h1>
-      <p><a href='index.php'>Return to main page</a></p>
+      <?php require 'header.php'; ?>
     </header>
-
-    <section id='topnavbar'>
-    <form method="get">
-      <fieldset>
-        <select id="fighterid" name="fighterid">
-          <?php foreach ($fighterList as $listItem): ?>
-            <option value='<?= $listItem['FighterID'] ?>'><?= $listItem['Name'] ?></option>
-          <?php endforeach ?>
-        </select>
-        <button type="submit">Go</button>
-      </fieldset>
-    </form>
-    </section>
 
     <?php if ($fighterID != null): ?>
       <section id='main'>

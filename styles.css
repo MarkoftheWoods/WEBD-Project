@@ -5,6 +5,12 @@
   * Date:     March 12, 2020
 */
 
+ul{
+  list-style: none;
+  padding: 0px;
+  margin: 0px;
+}
+
 html{
   background-color: darkslategray;
   padding: none;
@@ -19,4 +25,10 @@ body{
 
 #alert{
   background-color: yellow;
+}
+
+#topnav{
+  list-style: none;
+  display: flex;
+  flex-direction: row;
 }

@@ -6,8 +6,10 @@
 * Date:     March 25, 2020
 ********************/
 
-require 'header.php';
+require 'functions.php';
 require 'authenticate.php';
+
+$pageTitle = "Add Fighter";
 
 if (isset($_GET['fighterid']))
 {
@@ -16,6 +18,7 @@ if (isset($_GET['fighterid']))
   if ($fighterID)
   {
     $editMode = true;
+    $pageTitle = "Edit Fighter";
     $fighter = getFighterData($fighterID, $db);
   }
   else{
@@ -82,8 +85,7 @@ else
 </head>
 <body>
     <header>
-      <h1>Fighter</h1>
-      <p><a href='index.php'>Return to main page</a></p>
+      <?php require 'header.php'; ?>
     </header>
 
     <section id='sidenavbar'>
