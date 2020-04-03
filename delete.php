@@ -24,4 +24,20 @@ if (isset($_GET['fighterid']))
     exit;
 }
 
+if (isset($_GET['commentid']))
+{
+    $commentID = filter_input(INPUT_GET, 'commentid', FILTER_VALIDATE_INT);
+
+    $comment = getCommentData($commentID, $db);
+    $_SESSION['message'] = "Successfully deleted comment.";
+
+    $query = "DELETE FROM comment WHERE CommentID = :commentid";
+    $statement = $db->prepare($query);
+    $statement->bindValue(':commentid', $commentID, PDO::PARAM_INT);
+    $statement->execute();
+
+    header('Location: index.php');
+    exit;
+}
+
 ?>

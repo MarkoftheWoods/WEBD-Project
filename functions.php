@@ -47,4 +47,15 @@ function formatFight($fight, $fighter, $db)
     return $output; 
 }
 
+function getCommentData($id, $db)
+{
+  $query = "SELECT * FROM comment WHERE CommentID = :id";
+  $statement = $db->prepare($query);
+  $statement->bindValue(':id', $id);
+  $statement->execute();
+  $foundComment = $statement->fetch();
+
+  return $foundComment;
+}
+
 ?>

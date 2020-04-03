@@ -25,6 +25,11 @@
     $searchList = $fighterList;
   }
 
+  if (isset($_SESSION['message']))
+  {
+    $message = $_SESSION['message'];
+  }
+
 ?>
 
 <!DOCTYPE html>
@@ -59,7 +64,12 @@
       -->
     </section>
 
+    
+
     <section>
+    <?php if (isset($message)): ?>
+        <p id="alert"><?= $message ?> </p>
+    <?php endif ?>
     <form>
       <fieldset>
       <h3>Fighter List</h3>

@@ -19,6 +19,48 @@ if (isset($_GET['fighterid']))
   {
     $editMode = true;
     $pageTitle = "Edit Fighter";
+
+    if (isset($_POST['fightername']))
+    {
+      $fighterName = filter_input(INPUT_POST, 'fightername', FILTER_SANITIZE_STRING);
+      $birthDate = filter_input(INPUT_POST, 'birthdate', FILTER_SANITIZE_STRING);
+      $birthPlace = filter_input(INPUT_POST, 'birthplace', FILTER_SANITIZE_STRING);
+      $wins = filter_input(INPUT_POST, 'wins', FILTER_VALIDATE_INT);
+      $losses = filter_input(INPUT_POST, 'losses', FILTER_VALIDATE_INT);
+      $draws = filter_input(INPUT_POST, 'draws', FILTER_VALIDATE_INT);
+      $nocontests = filter_input(INPUT_POST, 'nocontests', FILTER_VALIDATE_INT);
+  
+  
+      $query = "UPDATE fighter SET Name = :fightername, Birthdate = :birthDate, Birthplace = :birthPlace, Wins = :wins, Losses = :losses, Draws = :draws, NoContests = :nocontests 
+                     WHERE FighterID = :fighterid";
+      $statement = $db->prepare($query);
+  
+      $statement->bindValue(':fightername', $fighterName);
+      $statement->bindValue(':birthDate', $birthDate);
+      $statement->bindValue(':birthPlace', $birthPlace);
+      $statement->bindValue(':wins', $wins);
+      $statement->bindValue(':losses', $losses);
+      $statement->bindValue(':draws', $draws);
+      $statement->bindValue(':nocontests', $nocontests);
+      $statement->bindValue(':fighterid', $fighterID);
+  
+      if ($statement->execute())
+      {
+        $message = "Successfully edited $fighterName.";
+      }
+      else{
+        $message = "Unable to edit fighter. Error: " . $statement->errorCode();
+      }
+    }
+    else
+    {
+      if (isset($_SESSION['message']))
+      {
+        $message = $_SESSION['message'];
+      }
+    }
+
+
     $fighter = getFighterData($fighterID, $db);
   }
   else{
@@ -76,11 +118,7 @@ else
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <?php if ($editMode): ?>
-    <title>Edit Fighter</title>
-  <?php else: ?>
-    <title>Add Fighter</title>
-  <?php endif ?>
+  <title><?= $pageTitle ?></title>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -162,7 +200,7 @@ else
             </li>
             <li>
               <?php if ($editMode): ?>
-                <button>Edit fighter</button>
+                <button formaction="addfighter.php?fighterid=<?= $fighterID?>">Edit fighter</button>
                 <button formaction="delete.php?fighterid=<?= $fighterID?>">Delete fighter</button>
               <?php else: ?>
                 <button>Add fighter</button>
