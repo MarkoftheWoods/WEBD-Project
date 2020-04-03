@@ -23,22 +23,9 @@ if ($fighterID != null)
   $fights = $statement->fetchAll();
 }
 
-function formatFight($fight, $fighter)
+if (isset($_SESSION['message']))
 {
-  if ($fight['RedCornerFighter'] == $fighter['FighterID'])
-  {
-    $thisFighter = $fight['RedCornerFighter'];
-    $otherFighter = $fight['BlueCornerFighter'];
-    $fighterResult = $fight['RedCornerResult'];    
-  }
-  else
-  {
-    $thisFighter = $fight['BlueCornerFighter'];
-    $otherFighter = $fight['RedCornerFighter'];
-    $fighterResult = $fight['BlueCornerResult'];  
-  }
-    $output = '<a href=\'fight.php?fightid=' || $fight['FightID'] || '>' || $fight['Result'] || ' vs ' || $otherFighter || '</a>';
-    return $output; 
+  $message = $_POST['message'];
 }
 
 ?>
@@ -54,6 +41,11 @@ function formatFight($fight, $fighter)
     <header>
       <?php require 'header.php'; ?>
     </header>
+    <div>
+      <?php if (isset($message)): ?>
+        <p id="alert"><?= $message ?> </p>
+      <?php endif ?>
+    </div>
 
     <?php if ($fighterID != null): ?>
       <section id='main'>
@@ -68,12 +60,15 @@ function formatFight($fight, $fighter)
         <?php if ($fights != null): ?>
         <ul>
           <?php foreach ($fights as $fight): ?>
-              <li><?= formatFight($fight, $fighter) ?></li>
+              <li><?= formatFight($fight, $fighter, $db) ?></li>
           <?php endforeach ?>
         </ul>
         <?php endif ?>
       </section>
+      <?php require 'comments.php'; ?>
     <?php endif ?>
+  
+
 
     <footer>
     </footer>

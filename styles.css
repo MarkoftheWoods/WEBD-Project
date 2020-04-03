@@ -32,3 +32,15 @@ body{
   display: flex;
   flex-direction: row;
 }
+
+#commentform #commentusername{
+  margin-left: 33px;
+  margin-bottom: 10px;
+}
+
+#comment{
+  border: 2px solid black;
+  margin-left: 15px;
+  margin-bottom: 15px;
+  width: 200px;
+}
