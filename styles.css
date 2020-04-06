@@ -44,3 +44,15 @@ body{
   margin-bottom: 15px;
   width: 200px;
 }
+
+#fighterlist, #eventlist{
+  width: 200px;
+}
+
+#titleline{
+  width: 40%;
+  justify-content: space-between;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}

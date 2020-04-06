@@ -49,26 +49,24 @@ if (isset($_SESSION['message']))
 
     <?php if ($fighterID != null): ?>
       <section id='main'>
-        <h2><?= $fighter['Name'] ?></h2><a id="editlink" href='addfighter.php?fighterid=<?= $fighterID ?>'>Edit</a>
+        <span id="titleline"><h2><?= $fighter['Name'] ?></h2><a id="editlink" href='addfighter.php?fighterid=<?= $fighterID ?>'>Edit</a></span>
         <p><?= $fighter['Wins']?>-<?= $fighter['Losses']?>-<?= $fighter['Draws']?>  (<?= $fighter['NoContests']?>)</p>
         <ul>
           <li>From: <?= $fighter['Birthplace'] ?></li>
           <li>Born: <?= $fighter['Birthdate'] ?></li>        
         </ul>
 
-        <h3>Fights</h3>
-        <?php if ($fights != null): ?>
-        <ul>
-          <?php foreach ($fights as $fight): ?>
-              <li><?= formatFight($fight, $fighter, $db) ?></li>
-          <?php endforeach ?>
-        </ul>
-        <?php endif ?>
+        <div id="fighttable">
+          <h3>Fights</h3>
+          <?php if ($fights != null): ?>
+            <?php buildFightTable($fights, $db) ?>
+          <?php else: ?>
+            <p>No fights to display</p>
+          <?php endif ?>
+        </div>
       </section>
       <?php require 'comments.php'; ?>
     <?php endif ?>
-  
-
 
     <footer>
     </footer>

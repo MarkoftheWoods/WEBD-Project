@@ -7,9 +7,6 @@
 
 require 'connect.php';
 
-$fighterList = getAllFighters($db);
-$eventList = getAllEvents($db);
-
 function getFighterData($id, $db)
 {
   $query = "SELECT * FROM fighter WHERE FighterID = :id";
@@ -41,21 +38,42 @@ function getAllEvents($db)
   return $events;
 }
 
-function formatFight($fight, $fighter, $db)
+function formatFightRow($fight, $db)
 {
-  if ($fight['RedCornerFighter'] == $fighter['FighterID'])
+  if ( ($fight['RedCornerResult'] == "W") && ($fight['BlueCornerResult'] == "L") )
   {
-    $otherFighter = getFighterData($fight['BlueCornerFighter'], $db);
-    $fighterResult = $fight['RedCornerResult'];    
+    $winner = getFighterData($fight['RedCornerFighter'], $db);
+    $loser = getFighterData($fight['BlueCornerFighter'], $db);
   }
-  else
+  else if ( ($fight['RedCornerResult'] == "L") && ($fight['BlueCornerResult'] == "W") )
   {
-    $otherFighter = getFighterData($fight['RedCornerFighter'], $db);
-    $fighterResult = $fight['BlueCornerResult'];  
+    $loser = getFighterData($fight['RedCornerFighter'], $db);
+    $winner = getFighterData($fight['BlueCornerFighter'], $db);
   }
-    $output = "<a href='fight.php?fightid=" . $fight['FightID'] . "'>" . $fighterResult . " vs " . $otherFighter['Name'] . "</a>";
+  else{
+    $loser = getFighterData($fight['RedCornerFighter'], $db);
+    $winner = getFighterData($fight['BlueCornerFighter'], $db);
+  }
 
-    return $output; 
+  if($loser == null)
+  {
+    $loser['Name'] = "Unknown fighter";
+    $loser['FighterID'] = -1;
+  }
+
+  if($winner == null)
+  {
+    $winner['Name'] = "Unknown fighter";
+    $winner['FighterID'] = -1;
+  }
+
+  $output = "<td><a href='fighter.php?fighterid=" . $winner['FighterID'] . "'>". $winner['Name'] . 
+            "</a></td><td>defeated</td><td><a href='fighter.php?fighterid=" . $loser['FighterID'] . "'>" . $loser['Name'] . 
+            "</a></td><td><a href='fight.php?fightid=" . $fight['FightID'] . "'>Details</a></td>";
+
+  //$output = "<a href='fight.php?fightid=" . $fight['FightID'] . "'>" . $fighterResult . " vs " . $otherFighter['Name'] . "</a>";
+
+  return $output; 
 }
 
 function getCommentData($id, $db)
@@ -79,5 +97,23 @@ function getEventData($id, $db)
 
   return $foundEvent;
 }
+
+function buildFightTable($fightList, $db)
+{
+  
+  echo '<table id="fighttable">';
+  
+  foreach ($fightList as $fight)
+  {
+    echo "<tr>";
+    echo formatFightRow($fight, $db);
+    echo "</tr>";
+  }
+
+  echo '</table>';
+}
+
+$fighterList = getAllFighters($db);
+$eventList = getAllEvents($db);
 
 ?>

@@ -8,6 +8,11 @@ if ($pageTitle == "Fighter Profile")
   $commentType = "FighterID";
   $pageID = $fighterID;
 }
+elseif ($pageTitle == "Event Details")
+{
+  $commentType = "EventID";
+  $pageID = $eventID;
+}
 
 if (isset($_POST['commentusername']))
 {

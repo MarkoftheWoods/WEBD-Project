@@ -40,4 +40,20 @@ if (isset($_GET['commentid']))
     exit;
 }
 
+if (isset($_GET['eventid']))
+{
+    $eventID = filter_input(INPUT_GET, 'eventid', FILTER_VALIDATE_INT);
+
+    $event = getEventData($eventID, $db);
+    $_SESSION['message'] = "Successfully deleted event.";
+
+    $query = "DELETE FROM event WHERE EventID = :eventid";
+    $statement = $db->prepare($query);
+    $statement->bindValue(':eventid', $eventID, PDO::PARAM_INT);
+    $statement->execute();
+
+    header('Location: index.php');
+    exit;
+}
+
 ?>

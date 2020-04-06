@@ -5,7 +5,6 @@
 
 ?>
 
-
 <section>
     <ul id='topnavbar'>
         <li><a href='index.php'>Home</a></li>
@@ -19,7 +18,7 @@
     
     <form method="get" action="fighter.php">
         <fieldset>
-          <select id="fighterid" name="fighterid">
+          <select id="fighterlist" name="fighterid">
             <option value="" selected disabled hidden>Choose a fighter:</option>
             <?php foreach ($fighterList as $listItem): ?>
               <option value='<?= $listItem['FighterID'] ?>'><?= $listItem['Name'] ?></option>
@@ -31,7 +30,7 @@
 
     <form method="get" action="event.php">
         <fieldset>
-          <select id="eventid" name="eventid">
+          <select id="eventlist" name="eventid">
             <option value="" selected disabled hidden>Choose an event:</option>
             <?php foreach ($eventList as $listItem): ?>
               <option value='<?= $listItem['EventID'] ?>'><?= $listItem['EventName'] ?></option>
