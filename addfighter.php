@@ -59,8 +59,6 @@ if (isset($_GET['fighterid']))
         $message = $_SESSION['message'];
       }
     }
-
-
     $fighter = getFighterData($fighterID, $db);
   }
   else{

@@ -8,6 +8,7 @@
 
 $eventID = filter_input(INPUT_GET, 'postid', FILTER_VALIDATE_INT);
 
+$pageTitle = "Event Details";
 ?>
 
 <!DOCTYPE html>
@@ -19,7 +20,7 @@ $eventID = filter_input(INPUT_GET, 'postid', FILTER_VALIDATE_INT);
 </head>
 <body>
     <header>
-    <h1></h1>
+      <?php require 'header.php'; ?>
     </header>
 
     <section>

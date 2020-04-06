@@ -6,7 +6,10 @@
 * Date:     March 12, 2020
 ********************/
 
-require 'connect.php';
+require 'functions.php';
+//require 'authenticate.php';
+
+$pageTitle = "Add Fight";
 
 $fightid = filter_input(INPUT_GET, 'postid', FILTER_VALIDATE_INT);
 
@@ -26,7 +29,7 @@ if ($fightid != null)
 </head>
 <body>
     <header>
-    <h1></h1>
+      <?php require 'header.php'; ?>
     </header>
 
     <section>

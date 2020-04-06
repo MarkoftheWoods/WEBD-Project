@@ -8,6 +8,7 @@
 require 'connect.php';
 
 $fighterList = getAllFighters($db);
+$eventList = getAllEvents($db);
 
 function getFighterData($id, $db)
 {
@@ -28,6 +29,16 @@ function getAllFighters($db)
   $fighters = $statement->fetchAll();
 
   return $fighters;
+}
+
+function getAllEvents($db)
+{
+  $query = "SELECT * FROM event";
+  $statement = $db->prepare($query);
+  $statement->execute();
+  $events = $statement->fetchAll();
+
+  return $events;
 }
 
 function formatFight($fight, $fighter, $db)
@@ -56,6 +67,17 @@ function getCommentData($id, $db)
   $foundComment = $statement->fetch();
 
   return $foundComment;
+}
+
+function getEventData($id, $db)
+{
+  $query = "SELECT * FROM event WHERE EventID = :id";
+  $statement = $db->prepare($query);
+  $statement->bindValue(':id', $id);
+  $statement->execute();
+  $foundEvent = $statement->fetch();
+
+  return $foundEvent;
 }
 
 ?>

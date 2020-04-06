@@ -29,6 +29,18 @@
         </fieldset>
     </form>
 
+    <form method="get" action="event.php">
+        <fieldset>
+          <select id="eventid" name="eventid">
+            <option value="" selected disabled hidden>Choose an event:</option>
+            <?php foreach ($eventList as $listItem): ?>
+              <option value='<?= $listItem['EventID'] ?>'><?= $listItem['EventName'] ?></option>
+            <?php endforeach ?>
+          </select>
+          <button type="submit" >Go</button>
+        </fieldset>
+    </form>
+
     <h1><?= $pageTitle ?></h1>
     
 </section>

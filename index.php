@@ -55,6 +55,8 @@
 
     <section>
       <a href='addfighter.php'>Add fighter</a>
+      <a href='addfight.php'>Add fight</a>
+      <a href='addevent.php'>Add event</a>
       <!--
       <ul>
         <li><a href='addfighter.php'>Add fighter</a></li>        
