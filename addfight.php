@@ -13,7 +13,7 @@ $pageTitle = "Add Fight";
 
 if (isset($_GET['fightid']))
 {
-  $fighterID = filter_input(INPUT_GET, 'fightid', FILTER_VALIDATE_INT);
+  $fightID = filter_input(INPUT_GET, 'fightid', FILTER_VALIDATE_INT);
 
   if ($fightID)
   {
@@ -71,7 +71,7 @@ if (isset($_GET['fightid']))
         $message = $_SESSION['message'];
       }
     }
-    $fighter = getFightData($fightID, $db);
+    $fight = getFightData($fightID, $db);
   }
   else{
     $editMode = false;
@@ -155,9 +155,13 @@ else
             <li>
               <label for="eventid">Event:</label>
               <select id="eventlist" name="eventid">
-                <option value="" selected disabled hidden><i>Choose an event</i></option>
+              <option value="" selected disabled hidden><i>Choose an event</i></option>
                 <?php foreach ($eventList as $listItem): ?>
-                  <option value='<?= $listItem['EventID'] ?>'><?= $listItem['EventName'] ?></option>
+                  <?php if ( ($editMode) && ($listItem['EventID'] == $fight['EventID']) ): ?>
+                      <option value='<?= $listItem['EventID'] ?>' selected><?= $listItem['EventName'] ?></option>
+                  <?php else: ?>
+                    <option value='<?= $listItem['EventID'] ?>'><?= $listItem['EventName'] ?></option>
+                  <?php endif ?>
                 <?php endforeach ?>
               </select>
             </li>
@@ -166,7 +170,11 @@ else
               <select id="redfighter" name="redfighter">
                 <option value="" selected disabled hidden><i>Choose a fighter</i></option>
                 <?php foreach ($fighterList as $listItem): ?>
-                  <option value='<?= $listItem['FighterID'] ?>'><?= $listItem['Name'] ?></option>
+                  <?php if ( ($editMode) && ($listItem['FighterID'] == $fight['RedCornerFighter']) ): ?>
+                    <option value='<?= $listItem['FighterID'] ?>' selected><?= $listItem['Name'] ?></option>
+                  <?php else: ?>
+                    <option value='<?= $listItem['FighterID'] ?>'><?= $listItem['Name'] ?></option>
+                  <?php endif ?>
                 <?php endforeach ?>
               </select>
               <select id="redresult" name="redresult">
@@ -182,7 +190,11 @@ else
               <select id="bluefighter" name="bluefighter">
                 <option value="" selected disabled hidden><i>Choose a fighter</i></option>
                 <?php foreach ($fighterList as $listItem): ?>
-                  <option value='<?= $listItem['FighterID'] ?>'><?= $listItem['Name'] ?></option>
+                  <?php if ( ($editMode) && ($listItem['FighterID'] == $fight['BlueCornerFighter']) ): ?>
+                    <option value='<?= $listItem['FighterID'] ?>' selected><?= $listItem['Name'] ?></option>
+                  <?php else: ?>
+                    <option value='<?= $listItem['FighterID'] ?>'><?= $listItem['Name'] ?></option>
+                  <?php endif ?>
                 <?php endforeach ?>
               </select>
               <select id="blueresult" name="blueresult">

@@ -11,6 +11,7 @@ require 'functions.php';
 if (isset($_GET['fighterid']))
 {
     $fighterID = filter_input(INPUT_GET, 'fighterid', FILTER_VALIDATE_INT);
+    $imageURL = getImageURL($fighter['FighterID'], $db);
 
     $fighter = getFighterData($fighterID, $db);
     $_SESSION['message'] = "Successfully deleted " || $fighter['Name'];
@@ -19,6 +20,13 @@ if (isset($_GET['fighterid']))
     $statement = $db->prepare($query);
     $statement->bindValue(':fighterid', $fighterID, PDO::PARAM_INT);
     $statement->execute();
+
+    $query = "DELETE FROM image WHERE FighterID = :fighterid";
+    $statement = $db->prepare($query);
+    $statement->bindValue(':fighterid', $fighterID, PDO::PARAM_INT);
+    $statement->execute();
+
+    unlink("images/" . $imageURL);
 
     header('Location: addfighter.php');
     exit;

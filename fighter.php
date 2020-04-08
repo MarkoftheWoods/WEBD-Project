@@ -21,6 +21,17 @@ if ($fighterID != null)
   $statement->bindValue(':fighterID', $fighterID);
   $statement->execute();
   $fights = $statement->fetchAll();
+
+  $query = "SELECT * FROM image WHERE FighterID = :fighterID";
+  $statement = $db->prepare($query);
+  $statement->bindValue(':fighterID', $fighterID);
+  $statement->execute();
+  $image = $statement->fetch();
+  
+  if (isset($image['ImageURL']))
+    $imageURL = $image['ImageURL'];
+  else
+    $imageURL = null;
 }
 
 if (isset($_SESSION['message']))
@@ -50,6 +61,11 @@ if (isset($_SESSION['message']))
     <?php if ($fighterID != null): ?>
       <section id='main'>
         <span id="titleline"><h2><?= $fighter['Name'] ?></h2><a id="editlink" href='addfighter.php?fighterid=<?= $fighterID ?>'>Edit</a></span>
+        <div>
+          <?php if(isset($imageURL)): ?>
+            <img src='images/<?= $imageURL ?>' alt='<?= $fighter['Name'] ?>'></img>
+          <?php endif ?>
+        </div>
         <p><?= $fighter['Wins']?>-<?= $fighter['Losses']?>-<?= $fighter['Draws']?>  (<?= $fighter['NoContests']?>)</p>
         <ul>
           <li>From: <?= $fighter['Birthplace'] ?></li>

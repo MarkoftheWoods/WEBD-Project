@@ -8,14 +8,16 @@
 
 require 'functions.php';
 //require 'authenticate.php';
+include 'php-image-resize-master\lib\ImageResize.php';  
 
 $pageTitle = "Add Fighter";
+$imageURL = null;
 
 if (isset($_GET['fighterid']))
 {
   $fighterID = filter_input(INPUT_GET, 'fighterid', FILTER_VALIDATE_INT);
 
-  if ($fighterID)
+  if ($fighterID) //Valid FighterID specified as GET parameter
   {
     $editMode = true;
     $pageTitle = "Edit Fighter";
@@ -31,7 +33,7 @@ if (isset($_GET['fighterid']))
       $nocontests = filter_input(INPUT_POST, 'nocontests', FILTER_VALIDATE_INT);
   
   
-      $query = "UPDATE fighter SET Name = :fightername, Birthdate = :birthDate, Birthplace = :birthPlace, Wins = :wins, Losses = :losses, Draws = :draws, NoContests = :nocontests 
+      $query = "UPDATE fighter SET Name = :fightername, Birthdate = :birthDate, Birthplace = :birthPlace, Wins = :wins, Losses = :losses, Draws = :draws, NoContests = :nocontests
                      WHERE FighterID = :fighterid";
       $statement = $db->prepare($query);
   
@@ -60,13 +62,16 @@ if (isset($_GET['fighterid']))
       }
     }
     $fighter = getFighterData($fighterID, $db);
+    
   }
   else{
     $editMode = false;
     $message = "Unable to locate the requested data.";
   }  
+
+  require 'editimage.php';
 }
-else
+else //FighterID not specified as GET parameter
 {
   $editMode = false;
 
@@ -79,7 +84,6 @@ else
     $losses = filter_input(INPUT_POST, 'losses', FILTER_VALIDATE_INT);
     $draws = filter_input(INPUT_POST, 'draws', FILTER_VALIDATE_INT);
     $nocontests = filter_input(INPUT_POST, 'nocontests', FILTER_VALIDATE_INT);
-
 
     $query = "INSERT INTO `fighter` (`Name`, `Birthdate`, `Birthplace`, `Wins`, `Losses`, `Draws`, `NoContests`) 
                     VALUES (:fightername, :birthDate, :birthPlace, :wins, :losses, :draws, :nocontests)";
@@ -94,12 +98,17 @@ else
     $statement->bindValue(':nocontests', $nocontests);
 
     if ($statement->execute())
-    {
-      $message = "Successfully added $fighterName.";
+    {      
+      $fighterList = getAllFighters($db);
+      $fighter = end($fighterList);      
+      $message = "Successfully added " . $fighter['Name'];
+      require 'editimage.php';
+      $imageURL = getImageURL($fighter['FighterID'], $db);
     }
     else{
       $message = "Unable to add fighter. Error: " + $statement->errorCode();
-    }
+      $imageURL = null;
+    }   
   }
   else
   {
@@ -109,6 +118,8 @@ else
     }
   }
 }
+if(isset($fighterID))
+  $imageURL = getImageURL($fighterID, $db);
 
 ?>
 
@@ -132,7 +143,7 @@ else
         <p id="alert"><?= $message ?> </p>
       <?php endif ?>
       
-      <form method="post" action="addfighter.php">
+      <form method="post" action="addfighter.php" enctype="multipart/form-data">
         <fieldset>
           <ul>
             <li>
@@ -197,6 +208,15 @@ else
               
             </li>
             <li>
+              <?php if ($imageURL != null): ?>
+                <label for="deleteimage">Delete Image?</label>
+                <input type="checkbox" name="deleteimage" id="deleteimage">                
+              <?php else: ?>
+                <label for="image">Upload image:</label>
+                <input type="file" name="image" id="image">
+              <?php endif ?>
+            </li>
+            <li>
               <?php if ($editMode): ?>
                 <button formaction="addfighter.php?fighterid=<?= $fighterID?>">Edit fighter</button>
                 <button formaction="delete.php?fighterid=<?= $fighterID?>">Delete fighter</button>
@@ -204,10 +224,14 @@ else
                 <button>Add fighter</button>
               <?php endif ?>
             </li>
-
           </ul>
         </fieldset>
       </form>
+      <div>
+      <?php if (isset($filemessage)): ?>
+        <p><?= $filemessage ?> </p>
+      <?php endif ?>  
+      </div>
     </section>
 
     <footer>

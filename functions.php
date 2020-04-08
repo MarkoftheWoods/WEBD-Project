@@ -98,6 +98,33 @@ function getEventData($id, $db)
   return $foundEvent;
 }
 
+function getFightData($id, $db)
+{
+  $query = "SELECT * FROM fight WHERE FightID = :id";
+  $statement = $db->prepare($query);
+  $statement->bindValue(':id', $id);
+  $statement->execute();
+  $foundFight = $statement->fetch();
+
+  return $foundFight;
+}
+
+function getImageURL($fighterID, $db)
+{
+  $query = "SELECT * FROM image WHERE FighterID = :id";
+  $statement = $db->prepare($query);
+  $statement->bindValue(':id', $fighterID);
+  $statement->execute();
+  $foundURL = $statement->fetch();
+
+  if (isset($foundURL['ImageURL']))
+    $returnVal = $foundURL['ImageURL'];
+  else
+    $returnVal = null;
+
+  return $returnVal;
+}
+
 function buildFightTable($fightList, $db)
 {
   
@@ -115,5 +142,6 @@ function buildFightTable($fightList, $db)
 
 $fighterList = getAllFighters($db);
 $eventList = getAllEvents($db);
+$resultTypes = array("W", "L", "D", "NC");
 
 ?>
