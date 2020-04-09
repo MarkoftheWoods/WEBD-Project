@@ -38,6 +38,16 @@ function getAllEvents($db)
   return $events;
 }
 
+function getAllUsers($db)
+{
+  $query = "SELECT * FROM user";
+  $statement = $db->prepare($query);
+  $statement->execute();
+  $users = $statement->fetchAll();
+
+  return $users;
+}
+
 function formatFightRow($fight, $db)
 {
   if ( ($fight['RedCornerResult'] == "W") && ($fight['BlueCornerResult'] == "L") )

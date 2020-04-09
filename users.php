@@ -1,10 +1,14 @@
-<!-- 
-  *******************
+<?php 
+  /*******************
   * WEBD Final Project - users page
   * Name:     Mark Woods
   * Date:     March 12, 2020
-  ******************** 
--->
+  ********************/
+  require 'functions.php';
+
+  $allUsers = getAllUsers($db);
+
+?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -15,10 +19,33 @@
 </head>
 <body>
     <header>
-    <h1></h1>
+      <h1>Manage Users</h1>
     </header>
 
     <section>
+        <table id='usertable'>
+          <tr>
+            <th>UserID</th><th>Username</th><th>Email</th><th>Role</th><th>Date Created</th><th>Enabled</th>
+            <?php foreach ($allUsers as $userListItem): ?>
+              <tr>
+                <td><?= $userListItem['UserID'] ?></td>
+                <td><a href='edituser.php?userid=<?= $userListItem['UserID'] ?>'><?= $userListItem['Username'] ?></a></td>
+                <td><?= $userListItem['Email'] ?></td>
+                <td><?= $userListItem['Role'] ?></td>
+                <td><?= $userListItem['DateCreated'] ?></td>
+                <td>
+                  <?php if ($userListItem['Enabled'] == true): ?>
+                    <input id='enabled' name='enabled' type='checkbox' checked disabled/>
+                  <?php else: ?>
+                    <input id='enabled' name='enabled' type='checkbox' disabled/>
+                  <?php endif ?>
+                </td>
+                <td></td>
+              </tr>
+            <?php endforeach ?>
+          </tr>
+
+        </table>
     </section>
 </body>
 </html>

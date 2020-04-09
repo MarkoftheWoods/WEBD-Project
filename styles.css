@@ -56,3 +56,37 @@ body{
   flex-direction: row;
   align-items: center;
 }
+
+#signinbox{
+  width: 250px;
+  margin: auto;
+  margin-top: 10px;
+  padding: none;
+}
+
+#signinbox fieldset{
+  border: none;
+  padding: none;
+}
+
+#signinbody{
+  width: 275px;
+  border: 5px solid black;
+  border-radius: 5px 5px 5px;
+  margin-top: 75px;
+}
+
+#signinbody li{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+#signinbutton{
+  justify-content: center;
+}
+
+#usertable{
+  width: auto;
+  margin: auto;
+}
