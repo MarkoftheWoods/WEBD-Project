@@ -7,6 +7,17 @@
 
 require 'connect.php';
 
+function validateLogon($username, $password, $db)
+{
+  $query = "SELECT * FROM user WHERE Username = :username";
+  $statement = $db->prepare($query);
+  $statement->bindValue(':username', $username);
+  $statement->execute();
+  $user = $statement->fetch();
+
+  return $user;
+}
+
 function getFighterData($id, $db)
 {
   $query = "SELECT * FROM fighter WHERE FighterID = :id";
@@ -107,6 +118,18 @@ function getEventData($id, $db)
 
   return $foundEvent;
 }
+
+function getUserData($id, $db)
+{
+  $query = "SELECT * FROM user WHERE UserID = :id";
+  $statement = $db->prepare($query);
+  $statement->bindValue(':id', $id);
+  $statement->execute();
+  $foundUser = $statement->fetch();
+
+  return $foundUser;
+}
+
 
 function getFightData($id, $db)
 {

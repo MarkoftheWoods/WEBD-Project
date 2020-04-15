@@ -1,7 +1,7 @@
 <?php
 
 /*******************
-* WEBD Final Project - addfighter page
+* WEBD Final Project - addcomment page
 * Name:     Mark Woods
 * Date:     March 25, 2020
 ********************/

@@ -25,11 +25,12 @@
     <section>
         <table id='usertable'>
           <tr>
-            <th>UserID</th><th>Username</th><th>Email</th><th>Role</th><th>Date Created</th><th>Enabled</th>
+            <th></th><th>UserID</th><th>Username</th><th>Email</th><th>Role</th><th>Date Created</th><th>Enabled</th>
             <?php foreach ($allUsers as $userListItem): ?>
               <tr>
+                <td><a href='edituser.php?userid=<?= $userListItem['UserID'] ?>'>[Edit]</a></td>
                 <td><?= $userListItem['UserID'] ?></td>
-                <td><a href='edituser.php?userid=<?= $userListItem['UserID'] ?>'><?= $userListItem['Username'] ?></a></td>
+                <td><?= $userListItem['Username'] ?></td>
                 <td><?= $userListItem['Email'] ?></td>
                 <td><?= $userListItem['Role'] ?></td>
                 <td><?= $userListItem['DateCreated'] ?></td>
