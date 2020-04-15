@@ -2,27 +2,23 @@
   *******************
   * WEBD Final Project - Authenticate page
   * Name:     Mark Woods
-  * Date:     March 12, 2020
+  * Date:     Arpil 15, 2020
   ******************** 
 -->
 
 <?php
-    define('ADMIN_LOGIN','admin');
+    $validUser = false;
 
-    define('ADMIN_PASSWORD','mypass');
-
-    if (!isset($_SERVER['PHP_AUTH_USER']) || !isset($_SERVER['PHP_AUTH_PW'])
-
-    || ($_SERVER['PHP_AUTH_USER'] != ADMIN_LOGIN)
-
-    || ($_SERVER['PHP_AUTH_PW'] != ADMIN_PASSWORD)) 
+    if (isset($_SESSION['User']))
     {
-
-        header('HTTP/1.1 401 Unauthorized');
-
-        header('WWW-Authenticate: Basic realm="WMMAL"');
-
-        exit("Access Denied: Username and password required.");
-
+      if ($_SESSION['User']['Enabled'] == true)
+      {
+        $validUser = true;
+      }
+    }
+    
+    if (!$validUser)
+    {
+        exit("That feature is only available to staff. <a href=login.php>Please log in.</a>");
     }
 ?>

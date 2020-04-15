@@ -5,10 +5,13 @@
   * Date:     April 15th, 2020
   ********************/ 
 
-    require 'connect.php';
+    require 'functions.php';
 
-    if (isset($_SESSION))
-        session_destroy(); 
+    if (isset($_SESSION['User']))
+    {
+        $username = $_SESSION['User']['Username'];
+        session_destroy();
+    }
 
 ?>
 
@@ -20,6 +23,6 @@
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <h2>You have been logged out. <a href='index.php'>Click here</a> to return to the homepage.</h2>
+    <h2><?= $username ?> has been logged out. <a href='index.php'>Click here</a> to return to the homepage.</h2>
 </body>
 </html>

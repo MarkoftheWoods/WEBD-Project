@@ -7,6 +7,7 @@
 ********************/
 
 require 'functions.php';
+require 'authenticate.php';
 
 if (isset($_GET['fighterid']))
 {
@@ -62,6 +63,23 @@ if (isset($_GET['eventid']))
     $statement->execute();
 
     header('Location: index.php');
+    exit;
+}
+
+if (isset($_GET['userid']))
+{
+    $userID = filter_input(INPUT_GET, 'userid', FILTER_VALIDATE_INT);
+    $userID = getUserData($userID, $db);
+
+    
+    $_SESSION['message'] = "Successfully deleted " || $user['Name'];
+
+    $query = "DELETE FROM user WHERE UserID = :userid";
+    $statement = $db->prepare($query);
+    $statement->bindValue(':userid', $userID, PDO::PARAM_INT);
+    $statement->execute(); 
+
+    header('Location: userss.php');
     exit;
 }
 

@@ -6,8 +6,13 @@
   ********************/ 
 
 require 'connect.php';
+if (!isset($_SESSION))
+{
+  session_start();
+}
 
-function validateLogon($username, $password, $db)
+
+function validateLogin($username, $password, $db)
 {
   $query = "SELECT * FROM user WHERE Username = :username";
   $statement = $db->prepare($query);

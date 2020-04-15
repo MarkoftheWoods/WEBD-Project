@@ -7,7 +7,7 @@
 ********************/
 
 require 'functions.php';
-require 'authenticate.php';
+require 'authenticateadmin.php';
 
 $pageTitle = "Edit User";
 
@@ -24,6 +24,7 @@ if (isset($_GET['userid']))
   if (isset($_POST['username']))
   {
     $userName = filter_input(INPUT_POST, 'username', FILTER_SANITIZE_STRING);
+    $password = filter_input(INPUT_POST, 'password', FILTER_SANITIZE_STRING);
     $role = filter_input(INPUT_POST, 'role', FILTER_SANITIZE_STRING);
     $email = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_STRING);
     $enabled = false;
@@ -31,11 +32,12 @@ if (isset($_GET['userid']))
     if ($_POST['enabled'] == 'on')
         $enabled = true;
 
-    $query = "UPDATE user SET Username = :username, Role = :role, Enabled = :enabled, Email = :email 
+    $query = "UPDATE user SET Username = :username, Password = :pass, Role = :role, Enabled = :enabled, Email = :email 
                     WHERE UserID = :id";
     $statement = $db->prepare($query);
 
     $statement->bindValue(':username', $userName);
+    $statement->bindValue(':pass', $hashedPass);
     $statement->bindValue(':role', $role);
     $statement->bindValue(':enabled', $enabled);
     $statement->bindValue(':email', $email);
@@ -44,6 +46,7 @@ if (isset($_GET['userid']))
     if ($statement->execute())
     {
       $message = "Successfully edited user.";
+      $user = getUserData($user['UserID'], $db);
     }
     else{
       $message = "Unable to edit user. Error: " . $statement->errorCode();
@@ -126,6 +129,7 @@ else
           </ul>
         </fieldset>
       </form>
+      <p><a href="users.php">Back to users list.</a></p>
     </section>
 
     <footer>

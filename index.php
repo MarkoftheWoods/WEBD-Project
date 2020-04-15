@@ -45,6 +45,10 @@
     </header>
 
     <section id='search'>
+      <?php if (isset($message)): ?>
+        <p id="alert"><?= $message ?> </p>
+      <?php endif ?>
+      
       <form method="get">
         <fieldset>
           <input type="text" name="search">

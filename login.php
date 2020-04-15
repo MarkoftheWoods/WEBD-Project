@@ -5,17 +5,16 @@
   * Date:     April 9th, 2020
   ********************/ 
 
-    require 'connect.php';
+    require 'functions.php';
 
-    if (isset($_POST['Username']))
+    if (isset($_POST['username']))
     {
         $username = filter_input(INPUT_POST, 'username', FILTER_SANITIZE_STRING);
         $password = filter_input(INPUT_POST, 'password', FILTER_SANITIZE_STRING);
-        $user = validateLogon($username, $password, $db);
+        $user = validateLogin($username, $password, $db);
         
         if ( ($user != null) && ($user['Enabled'] == true) )
         {
-            session_start();
             $_SESSION['User'] = $user;
         }
         elseif ( ($user != null) && ($user['Enabled'] == false) )
@@ -30,12 +29,7 @@
     if (isset($_SESSION['User']))
     {
         $signedIn = true;
-    }
-    else   
-        $signedIn = false;
-
-    
-    
+    }  
 
 ?>
 
@@ -46,7 +40,7 @@
   <title>Log in</title>
   <link rel="stylesheet" href="styles.css">
 </head>
-<?php if($signedin): ?>
+<?php if(!isset($signedIn)): ?>
     <body id='signinbody'>
     <?php if (isset($message)): ?>
         <p id="alert"><?= $message ?> </p>

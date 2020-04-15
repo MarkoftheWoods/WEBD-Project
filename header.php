@@ -7,12 +7,14 @@
 
 <section>
     <ul id='topnavbar'>
-        <li><a href='index.php'>Home</a></li>
+        
         <?php if (!isset($_SESSION['User'])):  ?>
+            <li><a href='index.php'>Home</a></li>
             <li><a href='login.php'>Login</a></li>
             <li><a href='register.php'>Register</a></li>
         <?php else: ?>
-            <li><?= $_SESSION['Username'] ?></li>
+            <li>Welcome: <?= $_SESSION['User']['Username'] ?></li>
+            <li><a href='index.php'>Home</a></li>
             <li><a href='logout.php'>Logout</a></li>
         <?php endif ?>
     </ul>

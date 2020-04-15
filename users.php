@@ -5,6 +5,7 @@
   * Date:     March 12, 2020
   ********************/
   require 'functions.php';
+  require 'authenticateadmin.php';
 
   $allUsers = getAllUsers($db);
 
@@ -23,6 +24,10 @@
     </header>
 
     <section>
+        <?php if (isset($_SESSION['message'])): ?>
+          <p id="alert"><?= $message ?> </p>
+        <?php endif ?>
+
         <table id='usertable'>
           <tr>
             <th></th><th>UserID</th><th>Username</th><th>Email</th><th>Role</th><th>Date Created</th><th>Enabled</th>
@@ -41,12 +46,12 @@
                     <input id='enabled' name='enabled' type='checkbox' disabled/>
                   <?php endif ?>
                 </td>
-                <td></td>
+                <td><a href='resetpassword.php?userid=<?= $userListItem['UserID'] ?>'>[Reset Password]</a></td>
               </tr>
             <?php endforeach ?>
           </tr>
-
         </table>
+        <form><button formaction="register.php">New User</button></form>
     </section>
 </body>
 </html>

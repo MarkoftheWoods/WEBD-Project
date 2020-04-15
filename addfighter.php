@@ -7,8 +7,8 @@
 ********************/
 
 require 'functions.php';
-//require 'authenticate.php';
-include 'php-image-resize-master\lib\ImageResize.php';  
+include 'php-image-resize-master\lib\ImageResize.php';
+require 'authenticate.php';
 
 $pageTitle = "Add Fighter";
 $imageURL = null;
