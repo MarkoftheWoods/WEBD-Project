@@ -6,9 +6,18 @@
   ********************/ 
 
 require 'connect.php';
+
 if (!isset($_SESSION))
 {
   session_start();
+}
+else
+{
+  if (isset($_SESSION['User']))
+  {
+    if ($_SESSION['User']['Role'] == "ADMIN")
+      $adminUser = true;
+  }
 }
 
 
@@ -20,7 +29,10 @@ function validateLogin($username, $password, $db)
   $statement->execute();
   $user = $statement->fetch();
 
-  return $user;
+  if ($password == $user['Password'])
+    return $user;
+  else
+    return null;
 }
 
 function getFighterData($id, $db)

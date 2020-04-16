@@ -51,7 +51,7 @@
             <?php endforeach ?>
           </tr>
         </table>
-        <form><button formaction="register.php">New User</button></form>
+        <form><button formaction="adduser.php">New User</button></form>
     </section>
 </body>
 </html>

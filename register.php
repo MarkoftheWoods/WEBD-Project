@@ -7,7 +7,7 @@
 ********************/
 
 require 'functions.php';
-//require 'authenticate.php';
+require 'authenticate.php';
 
 $pageTitle = "Sign up";
 

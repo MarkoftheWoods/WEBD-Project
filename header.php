@@ -15,6 +15,9 @@
         <?php else: ?>
             <li>Welcome: <?= $_SESSION['User']['Username'] ?></li>
             <li><a href='index.php'>Home</a></li>
+            <?php if (isset($adminUser)): ?>
+              <li><a href="users.php">Manage users</a></li>
+            <?php endif ?>
             <li><a href='logout.php'>Logout</a></li>
         <?php endif ?>
     </ul>
@@ -42,7 +45,6 @@
           <button type="submit" >Go</button>
         </fieldset>
     </form>
-
     <h1><?= $pageTitle ?></h1>
     
 </section>
