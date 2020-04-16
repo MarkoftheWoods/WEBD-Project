@@ -4,8 +4,6 @@
   * Name:     Mark Woods
   * Date:     March 12, 2020
   ********************/ 
-
-  session_start();
   require 'functions.php';
 
   $pageTitle = "Index";
@@ -44,49 +42,44 @@
       <?php require 'header.php'; ?>
     </header>
 
-    <section id='search'>
-      <?php if (isset($message)): ?>
-        <p id="alert"><?= $message ?> </p>
-      <?php endif ?>
-      
-      <form method="get">
-        <fieldset>
-          <input type="text" name="search">
-          <button type="submit">Go</button>
-        </fieldset>
-      </form>
-    </section>
-
     <section>
-      <a href='addfighter.php'>Add fighter</a>
-      <a href='addfight.php'>Add fight</a>
-      <a href='addevent.php'>Add event</a>
-      <!--
       <ul>
+        <li><a href='fighterlist.php'>Fighter Directory</a></li>
         <li><a href='addfighter.php'>Add fighter</a></li>        
         <li><a href='addfight.php'>Add fight</a></li>
         <li><a href='addevent.php'>Add event</a></li>        
       </ul>
-      -->
-    </section>
-
-    
+    </section>    
 
     <section>
+         
     <?php if (isset($message)): ?>
         <p id="alert"><?= $message ?> </p>
     <?php endif ?>
     <form>
-      <fieldset>
-      <h3>Fighter List</h3>
-        <ul>
-          <?php foreach ($searchList as $listItem): ?>
-            <li>
-              <a href="fighter.php?fighterid=<?= $listItem['FighterID'] ?>" ><?= $listItem['Name'] ?></a>
-            </li>
-          <?php endforeach ?>
-        </ul>
-      </fieldset>
+        <fieldset>
+          <h3>Fighter List</h3>
+          <div id='search'>
+            <?php if (isset($message)): ?>
+              <p id="alert"><?= $message ?> </p>
+            <?php endif ?>
+
+            <form method="get">
+              <fieldset>
+                <label for="search">Search:</label>
+                <input type="text" name="search">
+                <button type="submit">Go</button>
+              </fieldset>
+            </form>
+          </div> 
+          <ul>
+            <?php foreach ($searchList as $listItem): ?>
+              <li>
+                <a href="fighter.php?fighterid=<?= $listItem['FighterID'] ?>" ><?= $listItem['Name'] ?></a>
+              </li>
+            <?php endforeach ?>
+          </ul>
+        </fieldset>
     </form>
     </section>
 </body>

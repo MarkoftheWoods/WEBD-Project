@@ -1,93 +1,104 @@
 <?php 
   /*******************
-  * WEBD Final Project - index page
+  * WEBD Final Project - fighterlist page
   * Name:     Mark Woods
   * Date:     March 12, 2020
   ********************/ 
 
-  session_start();
   require 'functions.php';
 
-  $pageTitle = "Index";
+  $pageTitle = "Fighter list";
 
-  if (isset($_GET['search']))
+  if (isset($_GET['sortby']))
   {
-    $search = '%' . strtoupper(filter_input(INPUT_GET, 'search', FILTER_SANITIZE_STRING)) . '%';
+    $sortBy = filter_input(INPUT_GET, 'sortby', FILTER_SANITIZE_STRING);
 
-    $query = "SELECT * FROM fighter WHERE UPPER(Name) LIKE :search";
+    $validColumns = ["FighterID", "FighterID DESC", "Name", "Birthdate", "Wins", "Losses", "Name DESC", "Birthdate DESC", "Wins DESC", "Losses DESC"];
+    
+    if (!in_array($sortBy, $validColumns))
+    {
+      $sortBy = "FighterID";
+    }
+
+    $query = "SELECT * FROM fighter ORDER BY $sortBy";
     $statement = $db->prepare($query);
-    $statement->bindValue(':search', $search);
     $statement->execute();
-    $searchList = $statement->fetchAll();
+    $sortedList = $statement->fetchAll();
+
+    echo $query;
   }
   else
   {
-    $searchList = $fighterList;
+    $sortedList = getAllFighters($db);
   }
 
-  if (isset($_SESSION['message']))
-  {
-    $message = $_SESSION['message'];
-  }
-
+    
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <title>WMMAL Home</title>
+  <title>WMMAL Fighter Directory</title>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <header>
       <?php require 'header.php'; ?>
-    </header>
-
-    <section id='search'>
-      <?php if (isset($message)): ?>
-        <p id="alert"><?= $message ?> </p>
-      <?php endif ?>
-      
-      <form method="get">
-        <fieldset>
-          <input type="text" name="search">
-          <button type="submit">Go</button>
-        </fieldset>
-      </form>
-    </section>
-
-    <section>
-      <a href='addfighter.php'>Add fighter</a>
-      <a href='addfight.php'>Add fight</a>
-      <a href='addevent.php'>Add event</a>
-      <!--
-      <ul>
-        <li><a href='addfighter.php'>Add fighter</a></li>        
-        <li><a href='addfight.php'>Add fight</a></li>
-        <li><a href='addevent.php'>Add event</a></li>        
-      </ul>
-      -->
-    </section>
-
-    
+    </header>  
 
     <section>
     <?php if (isset($message)): ?>
         <p id="alert"><?= $message ?> </p>
     <?php endif ?>
-    <form>
-      <fieldset>
-      <h3>Fighter List</h3>
-        <ul>
-          <?php foreach ($searchList as $listItem): ?>
-            <li>
-              <a href="fighter.php?fighterid=<?= $listItem['FighterID'] ?>" ><?= $listItem['Name'] ?></a>
-            </li>
-          <?php endforeach ?>
-        </ul>
-      </fieldset>
+    <h3>Full Fighter List</h3>
+    <form method="get">
+        <ul><li>
+            <label for="sortby">Sort by:</label>
+            <select name="sortby">
+              <option hidden selected disabled>Select an item</option>
+              <option value='Name'>Name (alphabetical)</option>
+              <option value='Name DESC'>Name (reverse)</option>
+              <option value='Birthdate'>Birthdate (ascending)</option>
+              <option value='Birthdate DESC'>Birthdate (descending)</option>
+              <option value='Wins'>Wins (ascending)</option>
+              <option value='Wins DESC'>Wins (descending)</option>
+              <option value='Losses'>Losses (ascending)</option>
+              <option value='Losses DESC'>Losses (descending)</option>
+              <option value='FighterID'>Date Added (ascending)</option>
+              <option value='FighterID DESC'>Date Added (descending)</option>
+            </select>
+            <button type="submit">Go</button>
+        </li></ul>
     </form>
+
+    <table>
+        <tr>
+            <th>Name</th>
+            <th>Birthplace</th>
+            <th>Birthdate</th>
+            <th>W</th>
+            <th>L</th>
+            <th>D</th>
+            <th>NC</th>
+            <?php if (isset($_SESSION['User'])): ?>
+              <th></th>
+            <?php endif ?>
+        </tr>
+      <?php foreach ($sortedList as $listItem): ?>
+        <tr>
+            <td><?= $listItem['Name'] ?></td>
+            <td><?= $listItem['Birthplace'] ?></td>
+            <td><?= $listItem['Birthdate'] ?></td>
+            <td><?= $listItem['Wins'] ?></td>
+            <td><?= $listItem['Losses'] ?></td>
+            <td><?= $listItem['Draws'] ?></td>
+            <td><?= $listItem['NoContests'] ?></td>
+          <?php if (isset($_SESSION['User'])): ?>
+            <td><a href='addfighter.php?fighterid=<?= $listItem['FighterID'] ?>'>Edit</a></td>
+          <?php endif ?>    
+        </tr>
+      <?php endforeach ?>
     </section>
 </body>
 </html>
