@@ -30,9 +30,7 @@
   else
   {
     $sortedList = getAllFighters($db);
-  }
-
-    
+  }    
 ?>
 
 <!DOCTYPE html>

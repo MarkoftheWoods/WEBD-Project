@@ -21,7 +21,9 @@ else
   }
 }
 
-
+// Accepts a username, password, and reference to a PDO object
+// Pulls the user data from the database and verifies the password against the stored hash.
+// Returns null if password is not verified or user is not found.
 function validateLogin($username, $password, $db)
 {
   $query = "SELECT * FROM user WHERE Username = :username";
@@ -43,6 +45,9 @@ function validateLogin($username, $password, $db)
   return $user;
 }
 
+// Accepts a fighterID and reference to a PDO object
+// Pulls the fighter ID from the database and returns it
+// Returns null if fighterID is not found.
 function getFighterData($id, $db)
 {
   $query = "SELECT * FROM fighter WHERE FighterID = :id";
@@ -54,6 +59,65 @@ function getFighterData($id, $db)
   return $foundFighter;
 }
 
+// Accepts a commentID and reference to a PDO object
+// Pulls the comment ID from the database and returns it
+// Returns null if commentID is not found.
+function getCommentData($id, $db)
+{
+  $query = "SELECT * FROM comment WHERE CommentID = :id";
+  $statement = $db->prepare($query);
+  $statement->bindValue(':id', $id);
+  $statement->execute();
+  $foundComment = $statement->fetch();
+
+  return $foundComment;
+}
+
+// Accepts a eventID and reference to a PDO object
+// Pulls the event ID from the database and returns it
+// Returns null if eventID is not found.
+function getEventData($id, $db)
+{
+  $query = "SELECT * FROM event WHERE EventID = :id";
+  $statement = $db->prepare($query);
+  $statement->bindValue(':id', $id);
+  $statement->execute();
+  $foundEvent = $statement->fetch();
+
+  return $foundEvent;
+}
+
+// Accepts a userID and reference to a PDO object
+// Pulls the user ID from the database and returns it
+// Returns null if userID is not found.
+function getUserData($id, $db)
+{
+  $query = "SELECT * FROM user WHERE UserID = :id";
+  $statement = $db->prepare($query);
+  $statement->bindValue(':id', $id);
+  $statement->execute();
+  $foundUser = $statement->fetch();
+
+  return $foundUser;
+}
+
+// Accepts a fightID and reference to a PDO object
+// Pulls the fight ID from the database and returns it
+// Returns null if fightID is not found.
+function getFightData($id, $db)
+{
+  $query = "SELECT * FROM fight WHERE FightID = :id";
+  $statement = $db->prepare($query);
+  $statement->bindValue(':id', $id);
+  $statement->execute();
+  $foundFight = $statement->fetch();
+
+  return $foundFight;
+}
+
+// Accepts a reference to a PDO object
+// Pulls the entire list of fighters from the database and returns it
+//  as an array.
 function getAllFighters($db)
 {
   $query = "SELECT * FROM fighter";
@@ -64,6 +128,9 @@ function getAllFighters($db)
   return $fighters;
 }
 
+// Accepts a reference to a PDO object
+// Pulls the entire list of events from the database and returns it
+//  as an array.
 function getAllEvents($db)
 {
   $query = "SELECT * FROM event";
@@ -74,6 +141,9 @@ function getAllEvents($db)
   return $events;
 }
 
+// Accepts a reference to a PDO object
+// Pulls the entire list of users from the database and returns it
+//  as an array.
 function getAllUsers($db)
 {
   $query = "SELECT * FROM user";
@@ -84,6 +154,9 @@ function getAllUsers($db)
   return $users;
 }
 
+// Accepts a reference to a fight object and a reference to a PDO object
+// Formats the fight into a readable string with the most relevant information.
+// Returns a string.
 function formatFightRow($fight, $db)
 {
   if ( ($fight['RedCornerResult'] == "W") && ($fight['BlueCornerResult'] == "L") )
@@ -120,51 +193,6 @@ function formatFightRow($fight, $db)
   //$output = "<a href='fight.php?fightid=" . $fight['FightID'] . "'>" . $fighterResult . " vs " . $otherFighter['Name'] . "</a>";
 
   return $output; 
-}
-
-function getCommentData($id, $db)
-{
-  $query = "SELECT * FROM comment WHERE CommentID = :id";
-  $statement = $db->prepare($query);
-  $statement->bindValue(':id', $id);
-  $statement->execute();
-  $foundComment = $statement->fetch();
-
-  return $foundComment;
-}
-
-function getEventData($id, $db)
-{
-  $query = "SELECT * FROM event WHERE EventID = :id";
-  $statement = $db->prepare($query);
-  $statement->bindValue(':id', $id);
-  $statement->execute();
-  $foundEvent = $statement->fetch();
-
-  return $foundEvent;
-}
-
-function getUserData($id, $db)
-{
-  $query = "SELECT * FROM user WHERE UserID = :id";
-  $statement = $db->prepare($query);
-  $statement->bindValue(':id', $id);
-  $statement->execute();
-  $foundUser = $statement->fetch();
-
-  return $foundUser;
-}
-
-
-function getFightData($id, $db)
-{
-  $query = "SELECT * FROM fight WHERE FightID = :id";
-  $statement = $db->prepare($query);
-  $statement->bindValue(':id', $id);
-  $statement->execute();
-  $foundFight = $statement->fetch();
-
-  return $foundFight;
 }
 
 function getImageURL($fighterID, $db)
