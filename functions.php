@@ -15,7 +15,8 @@ else
 {
   if (isset($_SESSION['User']))
   {
-    if ($_SESSION['User']['Role'] == "ADMIN")
+    $user = $_SESSION['User'];
+    if ($user['Role'] == "ADMIN")
       $adminUser = true;
   }
 }
@@ -29,10 +30,17 @@ function validateLogin($username, $password, $db)
   $statement->execute();
   $user = $statement->fetch();
 
-  if ($password == $user['Password'])
-    return $user;
-  else
-    return null;
+  //Hashed password
+  if (!password_verify($password, $user['Password']))
+    $user = null; 
+
+  
+  //Plaintext password
+  //if ($user['Password'] != $password)
+  //  $user = null;
+  
+
+  return $user;
 }
 
 function getFighterData($id, $db)

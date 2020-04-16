@@ -3,6 +3,12 @@
     Header page. Data is inserted into every page.
  */
 
+if (isset($_SESSION['User']))
+{
+  if ($_SESSION['User']['Role'] == "ADMIN")
+    $adminUser = true;
+}
+
 ?>
 
 <section>
@@ -18,6 +24,7 @@
             <?php if (isset($adminUser)): ?>
               <li><a href="users.php">Manage users</a></li>
             <?php endif ?>
+            <li><a href='resetpassword.php?userid=<?= $_SESSION['User']['UserID'] ?>'>Reset Password</a></li>
             <li><a href='logout.php'>Logout</a></li>
         <?php endif ?>
     </ul>

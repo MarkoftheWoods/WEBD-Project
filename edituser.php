@@ -60,7 +60,7 @@ if (isset($_GET['userid']))
 }
 else
 {
-  $comment = null;
+  $user = null;
 }
 ?>
 

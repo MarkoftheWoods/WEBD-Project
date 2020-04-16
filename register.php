@@ -21,7 +21,10 @@ if (isset($_POST['email']))
     {
         $username = filter_input(INPUT_POST, 'username', FILTER_SANITIZE_STRING);
         $password = filter_input(INPUT_POST, 'pass', FILTER_SANITIZE_STRING);
-        $email = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_STRING);  
+        $email = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_STRING);
+
+        $options = ['salt' => "WMMALSalt2020"];
+        $hashedPass = password_hash($pass, PASSWORD_BCRYPT, $options);
     
         $query = "INSERT INTO user (Username, Password, Email)
                         VALUES(:username, :password, :email)";
@@ -29,7 +32,7 @@ if (isset($_POST['email']))
         $statement = $db->prepare($query);
     
         $statement->bindValue(':username', $username);
-        $statement->bindValue(':password', $password);
+        $statement->bindValue(':password', $hashedPass);
         $statement->bindValue(':email', $email);
     
         if ($statement->execute())

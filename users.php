@@ -20,7 +20,7 @@
 </head>
 <body>
     <header>
-      <h1>Manage Users</h1>
+      <?php require 'header.php'; ?>
     </header>
 
     <section>

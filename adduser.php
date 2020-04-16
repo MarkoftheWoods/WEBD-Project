@@ -26,28 +26,35 @@ require 'authenticateadmin.php';
       $message = "Passwords do not match";
       $validData = false;
     }
-
-
-    if ($_POST['enabled'] == 'on')
-        $enabled = true;
-
-    $query = "INSERT INTO user (Username, Password, Role, Enabled, Email)
-                    VALUES(:username, :pass, :role, :enabled, :email)";
-    $statement = $db->prepare($query);
-
-    $statement->bindValue(':username', $userName);
-    $statement->bindValue(':pass', $hashedPass);
-    $statement->bindValue(':role', $role);
-    $statement->bindValue(':enabled', $enabled);
-    $statement->bindValue(':email', $email);
-
-    if ($statement->execute())
+    else
     {
-      $message = "Successfully added user.";
-      $user = getUserData($user['UserID'], $db);
-    }
-    else{
-      $message = "Unable to add user. Error: " . $statement->errorCode();
+      $hashedPass = password_hash($pass, PASSWORD_BCRYPT);
+    
+
+      if ($_POST['enabled'] == 'on')
+      {
+          $enabled = true;
+      }
+
+      $query = "INSERT INTO user (Username, Password, Role, Enabled, Email)
+                      VALUES(:username, :pass, :role, :enabled, :email)";
+                      
+      $statement = $db->prepare($query);
+
+      $statement->bindValue(':username', $userName);
+      $statement->bindValue(':pass', $hashedPass);
+      $statement->bindValue(':role', $role);
+      $statement->bindValue(':enabled', $enabled);
+      $statement->bindValue(':email', $email);
+
+      if ($statement->execute())
+      {
+        $message = "Successfully added user.";
+        $user = getUserData($user['UserID'], $db);
+      }
+      else{
+        $message = "Unable to add user. Error: " . $statement->errorCode();
+      }
     }
   }
 ?>
